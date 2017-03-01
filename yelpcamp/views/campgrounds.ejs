@@ -1,0 +1,31 @@
+<h1>Da Campgrounds, Bruh!!!</h1>
+<!--<div style="width:400px;">-->
+<!--<div style="float: left; width: 130px"> -->
+<!--<form id="thisone" action="post_nrs_users.asp" method="post">-->
+<!--    <input type="submit" name = "" value="OK" >-->
+<!--</form>-->
+<!--</div>-->
+<!--<div style="float: right; width: 225px"> -->
+<!--    <form id="thistoo" action="post_nrs_users.asp" method="post">-->
+<!--     <input type="submit" name = "" value="Cancel" >-->
+<!--    </form>-->
+<!--</div>-->
+<!--</div>-->
+
+<form action="/">
+    <button type="submit">Go Back</button>
+</form>
+
+
+<form action="/campgrounds/new">
+    <button type="submit">Add New Campground</button>
+</form>
+
+<div>
+    <ul>
+        <% campgrounds.forEach(function(campground) { %>
+            <li><%= campground.name%></li>
+            <img src=<%=campground.image%>>
+        <% }); %>
+    </ul>
+</div>

@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+<p><h1>New campground, BIZ-NATCH!!!</h1></p>
+
+<form action="/campgrounds" method="POST">
+    <!--User input: type in name of new campground-->
+    <div style="margin:0 auto 10px;">
+        <label>Campground name
+            <input type="text" name="cgname"></input>
+        </label>
+    </div>
+    
+    <!--User input: supply URL that points to a picture of the campground.-->
+    <div style="upper-margin:10px;">
+        <label>URL
+            <input style="width=20%;" type="text" name="cgurl"></input>
+        </label>
+    </div>
+
+    <!--User input: hit the submit button.-->
+    <button type="submit">Submit!!</button>
+</form>
+
+<% include partials/footer %>
