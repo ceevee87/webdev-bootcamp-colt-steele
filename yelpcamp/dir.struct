@@ -1,18 +1,14 @@
-mkdir api
-mkdir bin
-mkdir collections
-mkdir config
-mkdir controllers
-mkdir env
-mkdir lib
-mkdir models
-mkdir public
-mkdir public/assets
-mkdir public/assets/css
-mkdir public/assets/js
-mkdir public/assets/js/lib
-mkdir routes
-mkdir test
-mkdir views
-touch app.js
-touch README.md
+
+declare -a dirs=(api bin collections config controllers env lib models public public/assets public/assets/css public/assets/js public/assets/js/lib routes test views)
+
+for dir in "${dirs[@]}"
+do
+   if [ ! -d $dir ]; then mkdir $dir; fi
+done
+
+declare -a files=(app.js README.md)
+for ff in "${files[@]}"
+do
+   if [ ! -e $ff ]; then touch $ff; fi
+done
+
