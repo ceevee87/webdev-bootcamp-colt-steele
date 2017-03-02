@@ -1,24 +1,31 @@
 <% include partials/header %>
 
-<p><h1>New campground, BIZ-NATCH!!!</h1></p>
+<div class="container">
+    <div class="row"> 
+        <p><h1 style="text-align: center;">New Campground</h1></p>
+        <div style="width:30%; margin:25px auto;">
+            <form action="/campgrounds" method="POST">
+                <div class="form-group">
+                    <!--User input: type in name of new campground-->
+                    <label style="width:100%">Campground name
+                        <input class="form-control" type="text" name="cgname"></input>
+                    </label>
+                </div>
+                    
+                <div class="form-group">
+                    <!--User input: supply URL that points to a picture of the campground.-->
+                    <label style="width:100%">URL
+                        <input class="form-control" type="text" name="cgurl"></input>
+                    </label>
+                </div>
 
-<form action="/campgrounds" method="POST">
-    <!--User input: type in name of new campground-->
-    <div style="margin:0 auto 10px;">
-        <label>Campground name
-            <input type="text" name="cgname"></input>
-        </label>
+                <div class="form-group">
+                    <!--User input: hit the submit button.-->
+                    <button class="btn btn-md btn-primary" type="submit">Submit!!</button>
+                </div>
+            </form>
+            <a href="/campgrounds">Go Back</a>
+        </div>
     </div>
-    
-    <!--User input: supply URL that points to a picture of the campground.-->
-    <div style="upper-margin:10px;">
-        <label>URL
-            <input style="width=20%;" type="text" name="cgurl"></input>
-        </label>
-    </div>
-
-    <!--User input: hit the submit button.-->
-    <button type="submit">Submit!!</button>
-</form>
-
+</div>
 <% include partials/footer %>
