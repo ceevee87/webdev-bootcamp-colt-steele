@@ -1,31 +1,40 @@
-<h1>Da Campgrounds, Bruh!!!</h1>
-<!--<div style="width:400px;">-->
-<!--<div style="float: left; width: 130px"> -->
-<!--<form id="thisone" action="post_nrs_users.asp" method="post">-->
-<!--    <input type="submit" name = "" value="OK" >-->
-<!--</form>-->
-<!--</div>-->
-<!--<div style="float: right; width: 225px"> -->
-<!--    <form id="thistoo" action="post_nrs_users.asp" method="post">-->
-<!--     <input type="submit" name = "" value="Cancel" >-->
-<!--    </form>-->
-<!--</div>-->
-<!--</div>-->
+<% include partials/header %>
 
-<form action="/">
+
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <h1>The Campgrounds, Bruh!!!</h1>
+      <p>Check out these cool campgrounds from around the US!</p>
+      <p>
+        <a class="btn btn-primary btn-large" 
+                href="/campgrounds/new">Add Another One!</a>
+      </p>
+    </div>
+  </header>
+
+  <form action="/">
     <button type="submit">Go Back</button>
-</form>
+  </form>
 
+  <!--Use Bootstrap to put all of the campground images in a nice grid
+  system. For each image put the name of the campground underneath
+  the image (this is the caption element). 
+  Make the images responsive to web page size (shrinking width) by
+  using Bootstrap rows and medium+small column sizes.-->
+  <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+    <% campgrounds.forEach(function(campground) { %>
+      <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+          <img src=<%=campground.image%>>
+          <div class="caption">
+            <h4><%= campground.name %></h4>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
 
-<form action="/campgrounds/new">
-    <button type="submit">Add New Campground</button>
-</form>
-
-<div>
-    <ul>
-        <% campgrounds.forEach(function(campground) { %>
-            <li><%= campground.name%></li>
-            <img src=<%=campground.image%>>
-        <% }); %>
-    </ul>
 </div>
+
+  <% include partials/footer %>
