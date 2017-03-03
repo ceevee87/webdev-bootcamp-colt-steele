@@ -60,13 +60,24 @@ app.get('/campgrounds', function(req, res) {
     });
 });
 
+app.get('/campgrounds/:id', function(req, res) {
+    Campground.findById(req.params.id, function(err, campground) {
+        if (err) {
+            console.log("app.get-campground/id, err: " + err);
+        } else {
+            res.render('campground.details.ejs', {campground: campground});
+        }
+    })
+});
+
 app.post('/campgrounds', function(req,res) {
     var cgname = req.body.cgname;
     var cgurl  = req.body.cgurl;
+    var cgdesc = req.body.cgdesc;
     // add in new entry to campgrounds array assuming the input was valid.
     if (validUrl.isWebUri(cgurl)){
         console.log("New campground! : " + cgname + " : " + cgurl);
-        var newCampground = {name: cgname, image: cgurl};
+        var newCampground = {name: cgname, image: cgurl, description: cgdesc};
 
         // We're savning this stuff in a database (MongoDB).
         Campground.create(newCampground, function(err, campground) {

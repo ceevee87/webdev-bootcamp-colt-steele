@@ -1,4 +1,4 @@
-var config   = require('./env/yelpcamp'),
+var config   = require('./env/yelpcamp.config'),
     mongoose = require('mongoose');
 
 console.log("----- mongoose.js ----------");
@@ -13,7 +13,7 @@ module.exports = function() {
     });
     
     try {
-        require('../models/campground');
+        require('../models/campground.server.model');
     }
     catch (e) {
         console.log('oh no big error')
