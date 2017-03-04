@@ -1,24 +1,14 @@
 
-var express    = require('express');
-var path       = require('path');
-var bodyparser = require('body-parser');
-var publicPath = path.resolve(__dirname, "public");
-var validUrl   = require('valid-url');
-
+var express    = require('./config/express');
 var app = express();
 
-app.use(express.static(publicPath));
-app.use(bodyparser.urlencoded({extended: true}));
-app.set("views", path.resolve(__dirname, "views"));
-app.set("view engine", "ejs");
-
+var validUrl   = require('valid-url');
+var config     = require('./config/env/yelpcamp.config');
 
 // MONGOOSE STUFF
 var mongoose = require('./config/mongoose')();
 var Campground = require('mongoose').model('Campground');
 
-var port = process.env.PORT || 3000;
-var ip   = process.env.IP || 'localhost';
 
 var Xcampgrounds = [
     { name: "Moss Lake", image: "https://farm9.staticflickr.com/8537/29537096513_db5c3723f7.jpg"},
@@ -93,7 +83,7 @@ app.post('/campgrounds', function(req,res) {
     }
     res.redirect('/campgrounds');
 });
-
-app.listen(port, ip, function() {
-   console.log("YelpCamp server starting up... " + ip); 
+ 
+app.listen(config.port, config.ip, function() {
+   console.log("YelpCamp server starting up... " + config.ip); 
 });
