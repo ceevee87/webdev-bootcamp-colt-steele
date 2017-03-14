@@ -34,13 +34,13 @@ app.get('/campgrounds', function(req, res) {
 
 // SHOW route
 app.get('/campgrounds/:id', function(req, res) {
-    Campground.findById(req.params.id, function(err, campground) {
+    Campground.findById(req.params.id).populate('comments').exec(function(err, campground) {
         if (err) {
             console.log("app.get-campground/id, err: " + err);
         } else {
             res.render('campground.details.ejs', {campground: campground});
         }
-    })
+    });
 });
 
 // CREATE route
