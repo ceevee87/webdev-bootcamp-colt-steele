@@ -7,17 +7,14 @@ console.log(__dirname);
 module.exports = function() {
     mongoose.connect(config.db);
     var db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'mongodb connection error:'));
+
+    db.on('error', function(err) {
+        console.error('Yikes! There was an error connecting to MongoDB: '+err);
+        process.exit(-1);
+    });
     db.on('connected', function() {
         console.log('Connection to mongodb (yelpcamp) successful!!');
     });
     
-    try {
-        require('../models/campground.server.model');
-    }
-    catch (e) {
-        console.log('oh no big error')
-        console.log(e)
-    }
     return mongoose;
 };

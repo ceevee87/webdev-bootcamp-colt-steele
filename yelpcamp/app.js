@@ -1,14 +1,11 @@
 
-var express    = require('./config/express');
-var app = express();
-
-var validUrl   = require('valid-url');
-var config     = require('./config/env/yelpcamp.config');
+var app        = require('./config/express')(),
+    validUrl   = require('valid-url'),
+    config     = require('./config/env/yelpcamp.config');
 
 // MONGOOSE STUFF
 var mongoose = require('./config/mongoose')();
-var Campground = require('mongoose').model('Campground');
-
+var Campground = require('./models/campground.model');
 
 var Xcampgrounds = [
     { name: "Moss Lake", image: "https://farm9.staticflickr.com/8537/29537096513_db5c3723f7.jpg"},

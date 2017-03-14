@@ -6,5 +6,5 @@ var campgroundSchema = mongoose.Schema({
     image:       String,
     description: String
 });
-var Campground = mongoose.model('Campground', campgroundSchema);
 
+module.exports = mongoose.model('Campground', campgroundSchema);

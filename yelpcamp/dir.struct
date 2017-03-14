@@ -1,12 +1,15 @@
 
-declare -a dirs=(api bin collections config controllers env lib models public public/assets public/assets/css public/assets/js public/assets/js/lib routes test views)
+declare -a dirs=(api bin collections config config/env controllers lib \
+            models public public/assets public/assets/css public/assets/js \
+            public/assets/js/lib routes test views views/partials)
 
 for dir in "${dirs[@]}"
 do
    if [ ! -d $dir ]; then mkdir $dir; fi
 done
 
-declare -a files=(app.js README.md)
+declare -a files=(app.js README.md \
+                  views/partials/footer.ejs views/partials/header.ejs)
 for ff in "${files[@]}"
 do
    if [ ! -e $ff ]; then touch $ff; fi
