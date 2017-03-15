@@ -45,7 +45,11 @@ module.exports = { campsData, campsComments };
 // { name: "Crystal Lake", image: "img/dino-reichmuth-123637.jpg"},
 // { name: "Dinosaur Wash", image: "img/martino-pietropoli-169840.jpg"},
 // { name: "Guitar Lake", image: "img/andreas-ronningen-37810.jpg"},
-// { name: "Solace Canyon", image: "https://unsplash.com/search/photos/camp?photo=K9olx8OF36A"},
-// { name: "Unknown Lake", image: "https://unsplash.com/search/photos/camp?photo=i9FLJwYhVQs"},
+
 // { name: "Ironside Hills", image: "https://farm6.staticflickr.com/5015/5571738694_92686392b7.jpg"}
 // { name: "Royal Cascade", image: "https://farm8.staticflickr.com/7172/6585313977_b8dc878384.jpg"},
+
+// these pics from unsplash pics don't render in the application. I'm not 
+// sure why.
+// { name: "Solace Canyon", image: "https://unsplash.com/search/photos/camp?photo=K9olx8OF36A"},
+// { name: "Unknown Lake", image: "https://unsplash.com/search/photos/camp?photo=i9FLJwYhVQs"},
