@@ -1,0 +1,31 @@
+<% include partials/header %>
+
+<div class="container">
+    <div class="row"> 
+        <p><h1 style="text-align: center;">Add a new comment for <%=campground.name%></h1></p>
+        <div style="width:30%; margin:25px auto;">
+            <form action="/campgrounds/<%=campground._id%>/comments" method="POST">
+                <div class="form-group">
+                    <!--User input: enter comment for campground-->
+                    <label style="width:100%">Comment
+                        <input class="form-control" type="text" name="comment[text]"></input>
+                    </label>
+                </div>
+                    
+                <div class="form-group">
+                    <!--User input: enter name of person commenting above.-->
+                    <label style="width:100%">Author
+                        <input class="form-control" type="text" name="comment[author]"></input>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <!--User input: hit the submit button.-->
+                    <button class="btn btn-md btn-primary" type="submit">Submit!!</button>
+                </div>
+            </form>
+            <a href="/campgrounds">Go Back</a>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>
