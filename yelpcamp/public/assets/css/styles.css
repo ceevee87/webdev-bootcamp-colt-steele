@@ -1,3 +1,29 @@
 body {
     font-family: 'Ubuntu', sans-serif;
 }
+
+/*styles for the index page (where all campgrounds are shown input 
+a an array of images with thumbnail pictures.)*/
+.campgrounds-array-img  {
+    width: 100%;
+}
+
+.campgrounds-array-thumbnail {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 9px;
+}
+
+/*styles for the campground details (show) page*/
+.campground-img {
+    width: 100%;
+}
+
+.campground-show-img-thumbnail {
+    padding: 0;
+}
+
+.campground-caption {
+    padding: 9px;
+}
