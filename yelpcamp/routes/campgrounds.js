@@ -1,7 +1,10 @@
 
-var express   = require('express'),
-    validUrl  = require('valid-url'),
-    router    = express.Router();
+var express    = require('express'),
+    validUrl   = require('valid-url'),
+    myUtilsFns = require('../util/myutils'),
+    router     = express.Router();
+
+var ensureAuthenticated = myUtilsFns.ensureAuthenticated;
 
 var Campground = require('../models/campground.model');
 
@@ -31,12 +34,12 @@ router.get('/', function(req, res) {
 });
 
 // NEW route
-router.get('/new', function(req, res) {
+router.get('/new', ensureAuthenticated, function(req, res) {
     res.render("campground.new.ejs");    
 });
 
 // CREATE route
-router.post('/', function(req,res) {
+router.post('/', ensureAuthenticated, function(req,res) {
     var cgname = req.body.cgname;
     var cgurl  = req.body.cgurl;
     var cgdesc = req.body.cgdesc;
