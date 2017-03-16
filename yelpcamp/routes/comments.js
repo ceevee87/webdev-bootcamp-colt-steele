@@ -23,7 +23,7 @@ router.get('/new', ensureAuthenticated, function(req, res) {
 });
 
 // comments CREATE
-router.post('/', function(req, res) {
+router.post('/', ensureAuthenticated, function(req, res) {
     Campground.findById(req.params.id, function(err, campground){
         if (err) {
             console.error("/campground/:id/comments - could not findById: "+err);

@@ -50,18 +50,15 @@ router.post('/login',
             failureFlash: true
         }
     ), function(req, res) {
+        // noop
     });
 
-router.get('/logout', function(req, res){
-    console.log("Logging out!!");
-    req.logout();
+router.get('/logout', function(req, res) {
+    if (req.user) {
+        console.log("Logging user <" + req.user.username + "> out!!");
+        req.logout();
+    }
     res.redirect('/campgrounds');
 });
 
-router.use(function(req, res, next){
-    res.locals.currentUser = req.user;
-    res.locals.errors = req.flash('error');
-    res.locals.infos = req.flash('info');
-    next();
-});
 module.exports = router;
