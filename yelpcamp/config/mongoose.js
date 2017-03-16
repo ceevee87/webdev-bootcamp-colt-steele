@@ -5,6 +5,7 @@ console.log("----- mongoose.js ----------");
 console.log(__dirname);
 
 module.exports = function() {
+    mongoose.Promise = require('bluebird');
     mongoose.connect(config.db);
     var db = mongoose.connection;
 

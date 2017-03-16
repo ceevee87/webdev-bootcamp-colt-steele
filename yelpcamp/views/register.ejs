@@ -1,4 +1,20 @@
 <% include partials/header %>
 
-<h2>Not done yet. Will be done later with authorization. </h2>
+<div class="container">
+    <h2>Register for a new account</h2>
+    <form role="form" method="POST" action="/register" id="register-form">
+        <div class="form-group">
+            <label for="register-label-uname">Username:</label>
+            <input type="text" name="username" id="register-label-uname">
+        </div>
+        <div class="form-group">
+            <label for="register-label-pword">Password:</label>
+            <input type="password" name="password" id="register-label-pword">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success">Submit</button>        
+        </div>
+    </form>
+</div>
+
 <% include partials/footer %>

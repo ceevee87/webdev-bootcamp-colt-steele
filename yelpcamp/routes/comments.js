@@ -12,7 +12,7 @@ var Comment    = require('../models/comment.model');
 // CREATE  /campgrounds/:id/comments      POST
 
 // comments NEW
-router.get('/new', function(req, res) {
+router.get('/new', ensureAuthenticated, function(req, res) {
     Campground.findById(req.params.id, function(err, campground){
         if (err) {
             console.error("/campground/:id/comments/new - could not findById: "+err);
@@ -41,5 +41,14 @@ router.post('/', function(req, res) {
         }
     });
 });
+
+function ensureAuthenticated(req, res, next){
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        req.flash("info","You must be logged in to see this page.");
+        res.redirect('/login');
+    }
+}
 
 module.exports = router;
