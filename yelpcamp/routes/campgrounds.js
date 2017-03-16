@@ -45,9 +45,13 @@ router.post('/', ensureAuthenticated, function(req,res) {
     var cgdesc = req.body.cgdesc;
     // add in new entry to campgrounds array assuming the input was valid.
     if (validUrl.isWebUri(cgurl)){
-        console.log("New campground! : " + cgname + " : " + cgurl);
-        var newCampground = {name: cgname, image: cgurl, description: cgdesc};
-
+        var newAuthor = { id: req.user._id, username: req.user.username}
+        var newCampground = {
+            name: cgname, 
+            image: cgurl, 
+            description: cgdesc, 
+            author: newAuthor
+        };
         // We're savning this stuff in a database (MongoDB).
         Campground.create(newCampground, function(err, campground) {
             if (err) {
