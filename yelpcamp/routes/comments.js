@@ -1,5 +1,8 @@
-var express = require('express'),
-    router  = express.Router({mergeParams:true});
+var express    = require('express'),
+    myUtilsFns = require('../util/myutils'),
+    router     = express.Router({mergeParams:true});
+
+var ensureAuthenticated = myUtilsFns.ensureAuthenticated;
 
 var Campground = require('../models/campground.model');
 var Comment    = require('../models/comment.model');
@@ -46,13 +49,13 @@ router.post('/', ensureAuthenticated, function(req, res) {
     });
 });
 
-function ensureAuthenticated(req, res, next){
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        req.flash("info","You must be logged in to see this page.");
-        res.redirect('/login');
-    }
-}
+// function ensureAuthenticated(req, res, next){
+//     if (req.isAuthenticated()) {
+//         next();
+//     } else {
+//         req.flash("info","You must be logged in to see this page.");
+//         res.redirect('/login');
+//     }
+// }
 
 module.exports = router;
