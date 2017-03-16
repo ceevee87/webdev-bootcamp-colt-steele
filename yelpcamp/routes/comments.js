@@ -29,7 +29,11 @@ router.post('/', ensureAuthenticated, function(req, res) {
             console.error("/campground/:id/comments - could not findById: "+err);
             res.redirect('/');
         } else {
-            Comment.create(req.body.comment, function(err2, _comment) {
+            var newComment             = new Comment();
+            newComment.text            = req.body.comment.text;
+            newComment.author.id       = req.user._id;
+            newComment.author.username = req.user.username;
+            Comment.create(newComment, function(err2, _comment) {
                 if (err2) {
                     console.error("Couldn't create Comment.");
                 } else {
