@@ -78,4 +78,36 @@ router.get('/:id', function(req, res) {
     });
 });
 
+// EDIT route
+router.get('/:id/edit', function(req, res) {
+    Campground.findById(req.params.id).populate('comments').exec(function(err, campground) {
+        if (err) {
+            req.flash("error", "could not find campground by id: "+ err.message);
+            res.redirect('/campgrounds')
+        } else {
+            res.render('campground.edit.ejs', {campground: campground});
+        }
+    });
+});
+
+// UPDATE route
+router.put('/:id', function(req, res) {
+    var redirectPage = "/campgrounds";
+    if (validUrl.isWebUri(req.body.campground.image)){
+        Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, campground) {
+            if (err) {
+                req.flash("error", "Could not find/update campground: "+ err.message);
+            } else {
+                // console.log("Updated campground!\n"+campground);
+                redirectPage += "/" + req.params.id;
+            }
+        });
+    } else {
+        req.flash("error", "The campground URL looks wrong. Please try again.\n "+
+                    req.body.campground.image);
+    }
+    res.redirect(redirectPage);                
+});
+
+
 module.exports = router;
