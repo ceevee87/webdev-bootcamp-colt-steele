@@ -34,3 +34,7 @@ a an array of images with thumbnail pictures.)*/
 	border: 1px solid transparent;
 	border-radius: 4px;    
 }
+
+.inline-form-button {
+    display: inline;
+}
