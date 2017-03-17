@@ -29,7 +29,7 @@ router.get('/new', ensureAuthenticated, function(req, res) {
 router.post('/', ensureAuthenticated, function(req, res) {
     Campground.findById(req.params.id, function(err, campground){
         if (err) {
-            console.error("/campground/:id/comments - could not findById: "+err);
+            req.flash("error", "Could not find campground with id: "+req.params.id);        
             res.redirect('/');
         } else {
             var newComment             = new Comment();
@@ -38,7 +38,7 @@ router.post('/', ensureAuthenticated, function(req, res) {
             newComment.author.username = req.user.username;
             Comment.create(newComment, function(err2, _comment) {
                 if (err2) {
-                    console.error("Couldn't create Comment.");
+                    req.flash("error", "Could not create new comment: "+err2);        
                 } else {
                     campground.comments.push(_comment._id);
                     campground.save();
@@ -48,14 +48,5 @@ router.post('/', ensureAuthenticated, function(req, res) {
         }
     });
 });
-
-// function ensureAuthenticated(req, res, next){
-//     if (req.isAuthenticated()) {
-//         next();
-//     } else {
-//         req.flash("info","You must be logged in to see this page.");
-//         res.redirect('/login');
-//     }
-// }
 
 module.exports = router;

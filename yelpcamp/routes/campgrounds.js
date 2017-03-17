@@ -52,7 +52,7 @@ router.post('/', ensureAuthenticated, function(req,res) {
             description: cgdesc, 
             author: newAuthor
         };
-        // We're savning this stuff in a database (MongoDB).
+        // We're saving this stuff in a database (MongoDB).
         Campground.create(newCampground, function(err, campground) {
             if (err) {
                 console.log(err);
@@ -62,7 +62,7 @@ router.post('/', ensureAuthenticated, function(req,res) {
             }
         });        
     } else {
-        console.log('The campgroung URL looks wrong. NOT accepting new campground.');
+        req.flash("error", "The campground URL looks wrong. NOT accepting new campground.");
     }
     res.redirect('/campgrounds');
 });

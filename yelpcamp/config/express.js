@@ -1,11 +1,11 @@
 
 console.log("------------------ express.js ------------------");
 
-var express    = require('express'),
-    bodyparser = require('body-parser'),
-    flash      = require('connect-flash'),
-    passport   = require('passport'),
-    session    = require('express-session');
+var express      = require('express'),
+    bodyparser   = require('body-parser'),
+    flash        = require('connect-flash'),
+    passport     = require('passport'),
+    session      = require('express-session');
 
 // path       = require('path');
 publicPath = './public';
@@ -25,8 +25,9 @@ module.exports = function() {
 
     app.use(function(req, res, next){
         res.locals.currentUser = req.user;
-        res.locals.errors = req.flash('error');
-        res.locals.infos = req.flash('info');
+        res.locals.flashError = req.flash('error');
+        res.locals.flashInfo = req.flash('info');
+        res.locals.flashSuccess = req.flash('success');
         next();
     });
 

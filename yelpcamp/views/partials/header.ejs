@@ -43,3 +43,13 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<div class="container">
+  <% if (flashError && flashError.length > 0) { %>
+    <div role="alert" class="alert alert-danger"><%=flashError%></div>
+  <% } else if (flashInfo && flashInfo.length > 0) { %>
+    <div role="alert" class="alert alert-info"><%=flashInfo%></div>
+  <% } else if (flashSuccess && flashSuccess.length > 0) { %>
+    <div role="alert" class="alert alert-success"><%=flashSuccess%></div>
+  <% } %>
+</div>
