@@ -21,11 +21,17 @@
                         <em>Submitted by <%=campground.author.username%></em>
                     </p>
                     <%} %>
-                    <a class="btn btn-xs btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit</a>
-                    <form class="inline-form-button" 
-                            action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                    </form>
+                    <!--middleware protects campgrounds from being edited or deleted by someone
+                    other than the owner. nonetheless, I won't display the buttons
+                    to perform these actions if the user is not the campground owner.
+                    it just makes for a better user experience. -->
+                    <%if (currentUser && campground.author.id.equals(currentUser._id)) { %>
+                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit</a>
+                        <form class="inline-form-button" 
+                                action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+                    <%} %>
                 </div>
             </div>
             <div class="well">
