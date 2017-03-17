@@ -2,7 +2,8 @@ var express    = require('express'),
     auth       = require('../middlewares/auth'),
     router     = express.Router({mergeParams:true});
 
-var ensureAuthenticated = auth.ensureAuthenticated;
+var ensureAuthenticated   = auth.ensureAuthenticated,
+    checkCommentOwnership = auth.checkCommentOwnership;
 
 var Campground = require('../models/campground.model');
 var Comment    = require('../models/comment.model');
@@ -58,7 +59,7 @@ router.post('/', ensureAuthenticated, function(req, res) {
 });
 
 // comments EDIT 
-router.get('/:comment_id/edit', function(req, res) {
+router.get('/:comment_id/edit', checkCommentOwnership, function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment){
         if (err) {
             req.flash("error", "Could not find comment: "+err.message);
@@ -70,11 +71,27 @@ router.get('/:comment_id/edit', function(req, res) {
 });
 
 // comments UPDATE (post)
-router.put('/:comment_id', function(req, res) {
+router.put('/:comment_id', checkCommentOwnership, function(req, res) {
     // res.send("Caught update comment route. Updated comment = \n"+JSON.stringify(req.body.comment));
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, resComment){
         if (err) {
             req.flash("error", "Could not update comment: "+err.message);
+        } 
+        res.redirect('/campgrounds/' + req.params.id);
+    });
+});
+
+// comments DESTOY (delete)
+router.delete('/:comment_id', checkCommentOwnership, function(req, res) {
+    // ugh. this initial version removes the comment from the 
+    // comments collection. but, what about references to this comment 
+    // in the campgrounds collection? Each collection contains an array 
+    // of comments and one of the campgrounds will have the following comment
+    // in its comment array.
+    // I'll come back to this later and deal with removing it.
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if (err) {
+            req.flash("error", "Could not remove comment: "+err.message);
         } 
         res.redirect('/campgrounds/' + req.params.id);
     });

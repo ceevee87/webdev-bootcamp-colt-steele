@@ -1,5 +1,6 @@
 
-Campground = require("../models/campground.model");
+var Campground = require('../models/campground.model'),
+    Comment    = require('../models/comment.model'); 
 
 function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()) {
@@ -43,4 +44,42 @@ function checkCampgroundOwnership(req, res, next) {
     }    
 }
 
-module.exports = { ensureAuthenticated, checkCampgroundOwnership }
+function checkCommentOwnership(req, res, next) {
+    // let's just find out if the user is even logged in before
+    // we start doing any updates
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You need to be logged in before editing a comment.");
+        res.redirect("back");
+    } else {
+        Comment.findById(req.params.comment_id, function(err, comment) {
+            if (err) {
+                req.flash("error", "Could not find comment by id: "+ err.message);
+                res.redirect("back");
+            } else if (!comment.author || comment.author.id.equals(req.user._id)) {
+                // we should only be allowing owners of the comment to
+                // make edits. what about a strange state where no owner
+                // is defined? This is definitely possible in early dev rounds
+                // during testing. 
+                // in this case, let the first editor "claim" the comment.
+                if (!comment.author) {
+                    comment.author = {
+                        id: req.user._id,
+                        username: req.user.username
+                    }
+                    comment.save();
+                }
+                next();
+            } else {
+                req.flash("error", 
+                "You are not authorized to edit this comment. <" + req.user.username +">");
+                res.redirect("back");
+            }
+        });
+    }    
+}
+
+module.exports = { 
+    ensureAuthenticated, 
+    checkCampgroundOwnership, 
+    checkCommentOwnership 
+}
