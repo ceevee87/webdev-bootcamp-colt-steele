@@ -1,10 +1,10 @@
 
 var express    = require('express'),
     validUrl   = require('valid-url'),
-    myUtilsFns = require('../util/myutils'),
+    auth       = require('../middlewares/auth'),
     router     = express.Router();
 
-var ensureAuthenticated = myUtilsFns.ensureAuthenticated;
+var ensureAuthenticated = auth.ensureAuthenticated;
 
 var Campground = require('../models/campground.model');
 

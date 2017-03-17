@@ -1,8 +1,8 @@
 var express    = require('express'),
-    myUtilsFns = require('../util/myutils'),
+    auth       = require('../middlewares/auth'),
     router     = express.Router({mergeParams:true});
 
-var ensureAuthenticated = myUtilsFns.ensureAuthenticated;
+var ensureAuthenticated = auth.ensureAuthenticated;
 
 var Campground = require('../models/campground.model');
 var Comment    = require('../models/comment.model');
