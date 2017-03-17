@@ -14,6 +14,14 @@ var Comment    = require('../models/comment.model');
 // NEW     /campgrounds/:id/comments/new  GET
 // CREATE  /campgrounds/:id/comments      POST
 
+// INDEX    N/A
+// SHOW     N/A
+ 
+// EDIT    /campgrounds/:id/comments/:comment_id/edit
+// UPDATE  /campgrounds/:id/comments/:comment_id
+// DESTROY /campgrounds/:id/comments/:comment_id
+
+
 // comments NEW
 router.get('/new', ensureAuthenticated, function(req, res) {
     Campground.findById(req.params.id, function(err, campground){
@@ -25,7 +33,7 @@ router.get('/new', ensureAuthenticated, function(req, res) {
     });
 });
 
-// comments CREATE
+// comments CREATE (post)
 router.post('/', ensureAuthenticated, function(req, res) {
     Campground.findById(req.params.id, function(err, campground){
         if (err) {
@@ -46,6 +54,29 @@ router.post('/', ensureAuthenticated, function(req, res) {
             });
             res.redirect('/campgrounds/' + campground._id);
         }
+    });
+});
+
+// comments EDIT 
+router.get('/:comment_id/edit', function(req, res) {
+    Comment.findById(req.params.comment_id, function(err, comment){
+        if (err) {
+            req.flash("error", "Could not find comment: "+err.message);
+            console.error("lookup comment: could not findById: "+err);
+        } else {
+            res.render('comment.edit.ejs', {campground_id: req.params.id, comment: comment});
+        }
+    });
+});
+
+// comments UPDATE (post)
+router.put('/:comment_id', function(req, res) {
+    // res.send("Caught update comment route. Updated comment = \n"+JSON.stringify(req.body.comment));
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, resComment){
+        if (err) {
+            req.flash("error", "Could not update comment: "+err.message);
+        } 
+        res.redirect('/campgrounds/' + req.params.id);
     });
 });
 

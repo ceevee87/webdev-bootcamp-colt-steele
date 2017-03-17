@@ -1,0 +1,29 @@
+<% include partials/header %>
+
+<div class="container">
+    <div class="row">
+        <p><h1 style="text-align: center;">Edit Comment</h1></p>
+        <div style="width:30%; margin:25px auto;">
+            <form action="/campgrounds/<%=campground_id%>/comments/<%=comment._id%>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <!--User input: enter comment for campground-->
+                    <label style="width:100%">Comment
+                        <input class="form-control" type="text" 
+                            name="comment[text]" value="<%=comment.text%>"></input>
+                    </label>
+                </div>
+
+                <!--we don't need to ask for the user name anymore -->
+                <!--we're going to take it from the logged in user -->
+                <!--see post method for "/" in comments.js -->
+
+                <div class="form-group">
+                    <!--User input: hit the submit button.-->
+                    <button class="btn btn-md btn-primary" type="submit">Submit!!</button>
+                </div>
+            </form>
+            <a href="/campgrounds/<%=campground_id%>">Go Back</a>
+        </div>
+    </div>
+</div>
+<% include partials/footer %>
