@@ -27,3 +27,10 @@ a an array of images with thumbnail pictures.)*/
 .campground-caption {
     padding: 9px;
 }
+
+.alert {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;    
+}
