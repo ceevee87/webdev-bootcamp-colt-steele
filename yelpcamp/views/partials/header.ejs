@@ -5,10 +5,14 @@
        <title>YelpCamp</title>
        <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
               rel="stylesheet" 
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
               crossorigin="anonymous">              
+
+      <!--Font Awesome icon awesomeness-->
+      <script src="https://use.fontawesome.com/209879e363.js"></script>
 
        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
                      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -37,7 +41,7 @@
         <li><a href="/login">Login</a></li>
         <li><a href="/register">Sign Up</a></li>
         <% } else { %>
-        <li><a href="#">Logged in as <%=currentUser.username%></a></li>
+        <li><a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> <%=currentUser.username%></a></li>
         <li><a href="/logout">Logout</a></li>
         <% } %>
       </ul>
@@ -47,9 +51,15 @@
 
 <div class="container">
   <% if (flashError && flashError.length > 0) { %>
-    <div role="alert" class="alert alert-danger"><%=flashError%></div>
+    <div role="alert" class="alert alert-danger">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <%=flashError%>
+    </div>
   <% } else if (flashInfo && flashInfo.length > 0) { %>
-    <div role="alert" class="alert alert-info"><%=flashInfo%></div>
+    <div role="alert" class="alert alert-info">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      <%=flashInfo%>
+    </div>
   <% } else if (flashSuccess && flashSuccess.length > 0) { %>
     <div role="alert" class="alert alert-success"><%=flashSuccess%></div>
   <% } %>
