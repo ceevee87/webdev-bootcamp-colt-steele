@@ -16,7 +16,7 @@
                     <h4 class="pull-right">$9.00/night</h4>
                     <h4><%= campground.name %></h4>
                     <p><%=campground.description%></p>
-                    <%if (campground.author.username) { %>
+                    <%if (campground.author && campground.author.username) { %>
                     <p>
                         <em>Submitted by <%=campground.author.username%></em>
                     </p>
@@ -25,7 +25,7 @@
                     other than the owner. nonetheless, I won't display the buttons
                     to perform these actions if the user is not the campground owner.
                     it just makes for a better user experience. -->
-                    <%if (currentUser && campground.author.id.equals(currentUser._id)) { %>
+                    <%if (currentUser && campground.author && campground.author.id && campground.author.id.equals(currentUser._id)) { %>
                         <a class="btn btn-xs btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit</a>
                         <form class="inline-form-button" 
                                 action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
