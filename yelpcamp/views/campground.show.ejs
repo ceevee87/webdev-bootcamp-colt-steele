@@ -16,7 +16,7 @@
                     <h4 class="pull-right">$9.00/night</h4>
                     <h4><%= campground.name %></h4>
                     <p><%=campground.description%></p>
-                    <%if (campground.author.username) { %>
+                    <%if (campground.author && campground.author.username) { %>
                     <p>
                         <em>Submitted by <%=campground.author.username%></em>
                     </p>
