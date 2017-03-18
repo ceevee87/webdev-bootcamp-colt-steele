@@ -38,3 +38,9 @@ a an array of images with thumbnail pictures.)*/
 .inline-form-button {
     display: inline;
 }
+
+.fabutton {
+  background: none;
+  padding: 0px;
+  border: none;
+}
