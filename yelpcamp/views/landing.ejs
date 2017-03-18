@@ -1,11 +1,43 @@
-<% include partials/header %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YelpCamp</title>
 
-<div class="container">
-<div class="jumbotron">
-    <h1>Welcome to YelpCamp!!!</h1>
-    <form action="/campgrounds">
-        <button type="submit">Checkout our campsites!!</button>
-    </form>
-</div>
-</div>
+        <!--BOOTSTRAP! -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+            crossorigin="anonymous">              
+
+        <!--Styles specific to the landing page. -->
+        <link rel="stylesheet" href="/assets/css/landing.css">
+
+        <!--Support for legacy browsers-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
+    </head>
+    <body>
+
+    <div class="container">
+    <% if (flashError && flashError.length > 0) { %>
+        <div role="alert" class="alert alert-danger"><%=flashError%></div>
+    <% } else if (flashInfo && flashInfo.length > 0) { %>
+        <div role="alert" class="alert alert-info"><%=flashInfo%></div>
+    <% } else if (flashSuccess && flashSuccess.length > 0) { %>
+        <div role="alert" class="alert alert-success"><%=flashSuccess%></div>
+    <% } %>
+    </div>
+    
+    <div id="landing-header">
+ 		<h1>Welcome to YelpCamp!</h1>
+		<a href="/campgrounds" class="btn btn-lg btn-success">View All Campgrounds</a>
+    </div>
+    
+    <ul class="slideshow">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
 <% include partials/footer %>
