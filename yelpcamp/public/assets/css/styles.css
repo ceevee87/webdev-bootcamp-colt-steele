@@ -18,6 +18,7 @@ a an array of images with thumbnail pictures.)*/
 /*styles for the campground details (show) page*/
 .campground-img {
     width: 100%;
+    max-height: 400px;
 }
 
 .campground-show-img-thumbnail {
@@ -39,8 +40,13 @@ a an array of images with thumbnail pictures.)*/
     display: inline;
 }
 
-.fabutton {
+.fa-delete-button {
   background: none;
   padding: 0px;
   border: none;
+  color: red;
+}
+
+a i.fa-pencil {
+  color: black;
 }
