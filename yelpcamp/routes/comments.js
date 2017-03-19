@@ -89,11 +89,23 @@ router.delete('/:comment_id', checkCommentOwnership, function(req, res) {
     // of comments and one of the campgrounds will have the following comment
     // in its comment array.
     // I'll come back to this later and deal with removing it.
-    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err, delcomment){
         if (err) {
             req.flash("error", "Could not remove comment: "+err.message);
-        } 
-        res.redirect('/campgrounds/' + req.params.id);
+            res.redirect('/campgrounds/' + req.params.id);
+        } else {
+            // I implemented 'in-place' deletes using ajax because it makes
+            // things a lot smoother looking on the web page. I don't get a
+            // screen refresh--the comment just goes away. So, I had to account
+            // for an ajax request type in this version. I leave the old server
+            // side code in (the else clause) just so I can see it for reference
+            // purposes.
+            if (req.xhr) {
+                res.json(delcomment);
+            } else {
+                res.redirect('/campgrounds/' + req.params.id);
+            }
+        }
     });
 });
 

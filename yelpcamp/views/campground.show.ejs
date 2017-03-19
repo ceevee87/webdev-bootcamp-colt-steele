@@ -51,10 +51,11 @@
                                 </span>
 
                                 <!--delete the comment-->
+                                <!--we are NOT using method override here because the delete-->
+                                <!--action is going to be handled with AJAX.-->
                                 <form class="form-delete-comment inline-form-button" 
-                                        action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                                    <!--<button class="btn btn-xs btn-danger">Delete</button>
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>-->
+                                        action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>" 
+                                        method="POST">
                                     <button type="submit" id="completed-task" class="fabutton">
                                         <i class="fa fa-lg fa-trash-o" aria-hidden="true"></i>
                                     </button>
