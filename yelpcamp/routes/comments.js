@@ -2,6 +2,8 @@ var express    = require('express'),
     auth       = require('../middlewares/auth'),
     router     = express.Router({mergeParams:true});
 
+var mongoose = require('mongoose');
+
 var ensureAuthenticated   = auth.ensureAuthenticated,
     checkCommentOwnership = auth.checkCommentOwnership;
 
@@ -83,28 +85,45 @@ router.put('/:comment_id', checkCommentOwnership, function(req, res) {
 
 // comments DESTOY (delete)
 router.delete('/:comment_id', checkCommentOwnership, function(req, res) {
-    // ugh. this initial version removes the comment from the 
-    // comments collection. but, what about references to this comment 
-    // in the campgrounds collection? Each collection contains an array 
-    // of comments and one of the campgrounds will have the following comment
-    // in its comment array.
-    // I'll come back to this later and deal with removing it.
-    Comment.findByIdAndRemove(req.params.comment_id, function(err, delcomment){
+    // what about references to this comment in the campgrounds collection? 
+    // Each campground document contains an array of comments.
+    // when we delete a comment we have to remove it from the comments 
+    // collection AND the array of comment referece IDs in a campground 
+    // document. 
+    // the lengthy code below does that. First we remove the comment ID from
+    // the campground array then go on to remove the comment itself from the
+    // comment collection.
+    Campground.update({'_id': req.params.id}, { $pullAll: {'comments': [req.params.comment_id]}}, function(err, data) {
         if (err) {
-            req.flash("error", "Could not remove comment: "+err.message);
-            res.redirect('/campgrounds/' + req.params.id);
-        } else {
-            // I implemented 'in-place' deletes using ajax because it makes
-            // things a lot smoother looking on the web page. I don't get a
-            // screen refresh--the comment just goes away. So, I had to account
-            // for an ajax request type in this version. I leave the old server
-            // side code in (the else clause) just so I can see it for reference
-            // purposes.
             if (req.xhr) {
-                res.json(delcomment);
+                res.json(data);
             } else {
+                req.flash("error", "Could not find or delete comment from campground list." + err.message);
                 res.redirect('/campgrounds/' + req.params.id);
             }
+        } else {
+            Comment.findByIdAndRemove(req.params.comment_id, function(err, delcomment){
+                if (err) {
+                    if (req.xhr) {
+                        res.json(data);
+                    } else {
+                        req.flash("error", "Could not remove comment: "+err.message);
+                        res.redirect('/campgrounds/' + req.params.id);
+                    }
+                } else {
+                    // I implemented 'in-place' deletes using ajax because it makes
+                    // things a lot smoother looking on the web page. I don't get a
+                    // screen refresh--the comment just goes away. So, I had to account
+                    // for an ajax request type in this version. I leave the old server
+                    // side code in (the else clause) just so I can see it for reference
+                    // purposes.
+                    if (req.xhr) {
+                        res.json(delcomment);
+                    } else {
+                        res.redirect('/campgrounds/' + req.params.id);
+                    }
+                }
+            });
         }
     });
 });
