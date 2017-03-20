@@ -41,18 +41,11 @@ router.get('/new', ensureAuthenticated, function(req, res) {
 
 // CREATE route
 router.post('/', ensureAuthenticated, function(req,res) {
-    var cgname = req.body.cgname;
-    var cgurl  = req.body.cgurl;
-    var cgdesc = req.body.cgdesc;
     // add in new entry to campgrounds array assuming the input was valid.
-    if (validUrl.isWebUri(cgurl)){
+    if (validUrl.isWebUri(req.body.campground.image)){
+        var newCampground = req.body.campground;
         var newAuthor = { id: req.user._id, username: req.user.username}
-        var newCampground = {
-            name: cgname, 
-            image: cgurl, 
-            description: cgdesc, 
-            author: newAuthor
-        };
+        newCampground.author = newAuthor;
         // We're saving this stuff in a database (MongoDB).
         Campground.create(newCampground, function(err, campground) {
             if (err) {
