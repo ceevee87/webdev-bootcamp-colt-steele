@@ -94,7 +94,10 @@ router.get('/comments/admin/dump', function(req, res) {
                 var cm2 = {
                     "text": comment.text,
                     "createdAt" : new Date(xx),
-                    "author": new mongoose.mongo.ObjectID(comment.author.id),
+                    "author": {
+                        "id" : new mongoose.mongo.ObjectID(comment.author.id),
+                        "username" : comment.author.username
+                    }
                 };
                 // console.log(JSON.stringify(cm2, null, '\t'));
 
