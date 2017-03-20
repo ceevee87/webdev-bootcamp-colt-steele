@@ -45,6 +45,7 @@ router.post('/', ensureAuthenticated, function(req, res) {
         } else {
             var newComment             = new Comment();
             newComment.text            = req.body.comment.text;
+            newComment.createdAt       = new Date(),
             newComment.author.id       = req.user._id;
             newComment.author.username = req.user.username;
             Comment.create(newComment, function(err2, _comment) {
@@ -75,7 +76,9 @@ router.get('/:comment_id/edit', checkCommentOwnership, function(req, res) {
 // comments UPDATE (post)
 router.put('/:comment_id', checkCommentOwnership, function(req, res) {
     // res.send("Caught update comment route. Updated comment = \n"+JSON.stringify(req.body.comment));
-    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, resComment){
+    var newComment = req.body.comment;
+    newComment.createdAt = new Date();
+    Comment.findByIdAndUpdate(req.params.comment_id, newComment, function(err, resComment){
         if (err) {
             req.flash("error", "Could not update comment: "+err.message);
         } 

@@ -44,6 +44,7 @@ router.post('/', ensureAuthenticated, function(req,res) {
     // add in new entry to campgrounds array assuming the input was valid.
     if (validUrl.isWebUri(req.body.campground.image)){
         var newCampground = req.body.campground;
+        newCampground.createdAt = new Date();
         var newAuthor = { id: req.user._id, username: req.user.username}
         newCampground.author = newAuthor;
         // We're saving this stuff in a database (MongoDB).
@@ -88,7 +89,9 @@ router.get('/:id/edit', checkCampgroundOwnership, function(req, res) {
 router.put('/:id', checkCampgroundOwnership, function(req, res) {
     var redirectPage = "/campgrounds";
     if (validUrl.isWebUri(req.body.campground.image)){
-        Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, campground) {
+        var newCampground = req.body.campground;
+        newCampground.createdAt = new Date();
+        Campground.findByIdAndUpdate(req.params.id, newCampground, function(err, campground) {
             if (err) {
                 req.flash("error", "Could not find/update campground: "+ err.message);
             } else {
@@ -99,7 +102,7 @@ router.put('/:id', checkCampgroundOwnership, function(req, res) {
         });
     } else {
         req.flash("error", "The campground URL looks wrong. Please try again.\n "+
-                    req.body.campground.image);
+                    newCampground.image);
         res.redirect(redirectPage);                
     }
 });
