@@ -63,7 +63,7 @@
                                 </form>
 
                             <%} %>
-                            <span class="pull-right">10 days ago</span>
+                            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
                             <p><%=comment.text%></p>
                         </div>
                     </div>
