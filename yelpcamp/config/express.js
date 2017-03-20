@@ -25,6 +25,8 @@ module.exports = function() {
     app.use(passport.initialize());
     app.use(passport.session());
 
+    app.locals.moment = require('moment');
+    
     app.use(function(req, res, next){
         res.locals.currentUser = req.user;
         res.locals.flashError = req.flash('error');
