@@ -18,7 +18,8 @@
                     <p><%=campground.description%></p>
                     <%if (campground.author && campground.author.username) { %>
                     <p>
-                        <em>Submitted by <%=campground.author.username%></em>
+                        <em>Submitted by <%=campground.author.username%>,
+                        <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <%} %>
                     <!--middleware protects campgrounds from being edited or deleted by someone
