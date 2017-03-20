@@ -84,7 +84,7 @@ var remarkSchema = mongoose.Schema(
 var Remark = mongoose.model('Remark', remarkSchema);
 
 router.get('/comments/admin/dump', function(req, res) {
-    Comment.find({}, { _id: 0, __v: 0}, function(err, comments) {
+    Comment.find({}, { __v: 0}, function(err, comments) {
         if (err) {
             console.log("Couldn't fetch comments from DB!!")
             console.log(err);
@@ -92,6 +92,7 @@ router.get('/comments/admin/dump', function(req, res) {
             comments.forEach(function(comment) {
                 var xx = new Date().getTime() - 1000*getRandomInt(50000, 16*86400); 
                 var cm2 = {
+                    "_id" : new mongoose.mongo.ObjectID(comment._id),
                     "text": comment.text,
                     "createdAt" : new Date(xx),
                     "author": {
