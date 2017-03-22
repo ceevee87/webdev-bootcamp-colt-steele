@@ -19,12 +19,19 @@
             <div class="campground-show-img-thumbnail thumbnail">
                 <image class="campground-img img-responsive" src="<%= campground.image%>">
                 <div class="campground-caption caption-full">
-                    <h4 class="pull-right">$<%=campground.price%>/night</h4>
+                    <h4 class="pull-right">
+                        <% if (campground.price > 0) {  %>
+                        $<%=campground.price%>/night
+                        <% } else { %> 
+                            Free
+                        <% } %>
+                    </h4>
                     <h4><%= campground.name %></h4>
                     <p><%=campground.description%></p>
                     <%if (campground.author && campground.author.username) { %>
                     <p>
-                        <em>Submitted by <%=campground.author.username%></em>
+                        <em>Submitted by <%=campground.author.username%>,
+                        <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <%} %>
                     <!--middleware protects campgrounds from being edited or deleted by someone
@@ -68,7 +75,7 @@
                                 </form>
 
                             <%} %>
-                            <span class="pull-right">10 days ago</span>
+                            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
                             <p><%=comment.text%></p>
                         </div>
                     </div>
