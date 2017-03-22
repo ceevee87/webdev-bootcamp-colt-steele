@@ -13,7 +13,13 @@
             <div class="campground-show-img-thumbnail thumbnail">
                 <image class="campground-img img-responsive" src="<%= campground.image%>">
                 <div class="campground-caption caption-full">
-                    <h4 class="pull-right">$<%=campground.price%>/night</h4>
+                    <h4 class="pull-right">
+                        <% if (campground.price > 0) {  %>
+                        $<%=campground.price%>/night
+                        <% } else { %> 
+                            Free
+                        <% } %>
+                    </h4>
                     <h4><%= campground.name %></h4>
                     <p><%=campground.description%></p>
                     <%if (campground.author && campground.author.username) { %>
