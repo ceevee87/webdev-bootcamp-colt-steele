@@ -11,6 +11,8 @@ var ensureAuthenticated   = auth.ensureAuthenticated,
 
 var Campground = require('../models/campground.model');
 var Comment    = require('../models/comment.model');
+var User       = require('../models/user.model');
+var passport = require('../config/passport')();
 
 // made up schema for testing purposes
 var farmSchema = mongoose.Schema({
@@ -38,7 +40,7 @@ function getRandomInt(min, max) {
 
 
 router.get('/campgrounds/admin/dump', function(req, res) {
-    var fname = '/home/johnr/campgrounds.json';
+    var fname = './campgrounds.json';
     Campground.find({}, { _id: 0, __v: 0, 'author.id': 0})
     .populate('comments', {_id:0, __v:0, 'author.id' : 0 })
     .exec(function(err, campgrounds) {
@@ -48,6 +50,53 @@ router.get('/campgrounds/admin/dump', function(req, res) {
             fs.writeFileSync(fname, JSON.stringify(campgrounds,null,'\t'));
         }
         res.redirect('/campgrounds');
+    });
+});
+
+router.get('/campgrounds/admin/dumpusers', function(req, res) {
+    var fname = './users.json';
+    User.find({}, { salt: 0, hash:0, __v:0, _id:0 }, function(err, users) {
+        if (err) {
+            console.log("Couldn't fetch users from DB!!")
+        } else {
+            fs.writeFileSync(fname, JSON.stringify(users,null,'\t'));
+        }
+        res.redirect('/campgrounds');
+    });
+});
+
+
+router.get('/comments/admin/cruser', function(req, res) {
+    var fname   = './users.json';
+    fs.readFile(fname, 'utf-8', function(err, data) {
+        if (err) {
+            console.error(">>>>>>>>>>>>>>> YIKES!!!! ERROR!!! <<<<<<<<<<<<<<< ");
+        } else {
+            // console.log("Data from file:\n", data);
+            var obj = JSON.parse(data);
+            console.log("Number of users = "+obj.length);
+            Object.getOwnPropertyNames(obj).sort().forEach(
+                function (val, idx, array) {
+                    if (!isNaN(val)) { 
+                        var username = obj[val].username;
+                        console.log("username = " + username);
+                        var newUser = new User({username: username});
+                        var passWord = 'ubuntu';
+                        User.register(newUser, passWord, function(err, user){
+                            if (err) {
+                                req.flash("error", "Could not register new user: "+err.message);
+                                res.redirect('/register');
+                            } else {
+                                console.log("Created new user: "+user);
+                                // req.flash("success", "Created new user: "+newUser);
+                                // res.redirect('/campgrounds');
+                            }
+                        });
+                    }
+                }
+            );
+            res.redirect('/campgrounds');            
+        }
     });
 });
 
