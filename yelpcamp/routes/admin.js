@@ -1,8 +1,10 @@
 var express    = require('express'),
     auth       = require('../middlewares/auth'),
+    fs         = require('fs'),
     router     = express.Router();
 
 var mongoose = require('mongoose');
+var async      = require('async');
 
 var ensureAuthenticated   = auth.ensureAuthenticated,
     checkCommentOwnership = auth.checkCommentOwnership;
@@ -17,7 +19,7 @@ var farmSchema = mongoose.Schema({
     image:       String,
     description: String,
     createdAt: { type: Date, default: Date.now },
-    author: { id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+    author: { id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
             username: String },
     comments:    [
         {
@@ -34,7 +36,22 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+
 router.get('/campgrounds/admin/dump', function(req, res) {
+    var fname = '/home/johnr/campgrounds.json';
+    Campground.find({}, { _id: 0, __v: 0, 'author.id': 0})
+    .populate('comments', {_id:0, __v:0, 'author.id' : 0 })
+    .exec(function(err, campgrounds) {
+        if (err) {
+            console.log("Couldn't fetch campgrounds from DB!!")
+        } else {
+            fs.writeFileSync(fname, JSON.stringify(campgrounds,null,'\t'));
+        }
+        res.redirect('/campgrounds');
+    });
+});
+
+router.get('/campgrounds/admin/dump2db', function(req, res) {
     Campground.find({}, { _id: 0, __v: 0}, function(err, campgrounds) {
         if (err) {
             console.log("Couldn't fetch campgrounds from DB!!")
@@ -77,20 +94,20 @@ var remarkSchema = mongoose.Schema(
     {
         text  : String,
         createdAt : { type: Date, default: Date.now },
-        author: { id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+        author: { id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
                 username: String }
     }
 );
 var Remark = mongoose.model('Remark', remarkSchema);
 
-router.get('/comments/admin/dump', function(req, res) {
+router.get('/comments/admin/dump2db', function(req, res) {
     Comment.find({}, { __v: 0}, function(err, comments) {
         if (err) {
             console.log("Couldn't fetch comments from DB!!")
             console.log(err);
         } else {
             comments.forEach(function(comment) {
-                var xx = new Date().getTime() - 1000*getRandomInt(50000, 16*86400); 
+                var xx = new Date().getTime() - 1000*getRandomInt(50000, 16*86400);
                 var cm2 = {
                     "_id" : new mongoose.mongo.ObjectID(comment._id),
                     "text": comment.text,
