@@ -36,5 +36,8 @@
     "path": "^0.12.7",
     "request": "^2.79.0",
     "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "gulp-image-resize": "^0.12.0"
   }
 }
