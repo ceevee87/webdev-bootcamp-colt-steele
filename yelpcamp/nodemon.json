@@ -1,0 +1,4 @@
+{
+  "verbose": true,
+  "ignore": ["nodemon.json", "campgrounds.json", "users.json", "commit.log"]
+}
