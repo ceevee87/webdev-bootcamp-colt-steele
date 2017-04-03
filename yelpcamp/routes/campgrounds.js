@@ -8,6 +8,7 @@ var ensureAuthenticated      = auth.ensureAuthenticated,
     checkCampgroundOwnership = auth.checkCampgroundOwnership;
 
 var Campground = require('../models/campground.model');
+var Comment    = require('../models/comment.model');
 
 // Summary of RESTful routes
 //
@@ -112,8 +113,16 @@ router.delete('/:id', checkCampgroundOwnership, function(req, res) {
     Campground.findByIdAndRemove(req.params.id, function(err, campground) {
         if (err) {
             req.flash("error", "could not remove campground: "+ err.message);
-        } 
-        res.redirect('/campgrounds')
+            res.redirect('/campgrounds')
+        } else {
+            Comment.remove({_id: {$in: campground.comments}}, function(err2, comments) {
+                if (err2) {
+                    req.flash("error", "could not remove comments: "+ err2.message);
+                } else {
+                    res.redirect('/campgrounds')
+                }
+            });
+        }
     });
 });
 
