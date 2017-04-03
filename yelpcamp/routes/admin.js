@@ -14,24 +14,6 @@ var Comment    = require('../models/comment.model');
 var User       = require('../models/user.model');
 var passport = require('../config/passport')();
 
-// made up schema for testing purposes
-var farmSchema = mongoose.Schema({
-    name:        String,
-    price:       String,
-    image:       String,
-    description: String,
-    createdAt: { type: Date, default: Date.now },
-    author: { id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-            username: String },
-    comments:    [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref : 'Comment'
-        }]
-});
-var Farm = mongoose.model('farm', farmSchema);
-
-
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -66,7 +48,7 @@ router.get('/campgrounds/admin/dumpusers', function(req, res) {
 });
 
 
-router.get('/comments/admin/cruser', function(req, res) {
+router.get('/comments/admin/crusers', function(req, res) {
     var fname   = './users.json';
     fs.readFile(fname, 'utf-8', function(err, data) {
         if (err) {
@@ -178,86 +160,5 @@ router.get('/comments/admin/crdb', function(req, res) {
     });
 });
 
-router.get('/campgrounds/admin/dump2db', function(req, res) {
-    Campground.find({}, { _id: 0, __v: 0}, function(err, campgrounds) {
-        if (err) {
-            console.log("Couldn't fetch campgrounds from DB!!")
-            console.log(err);
-        } else {
-            campgrounds.forEach(function(campground) {
-                var xx = new Date().getTime() - 1000*getRandomInt(10000, 12*86400);
-                var cg2 = {
-                    "name": campground.name,
-                    "price": campground.price,
-                    "image": campground.image,
-                    "description": campground.description,
-                    "createdAt" : new Date(xx),
-                    "comments": [],
-                    "author": {
-                        "id": new mongoose.mongo.ObjectID(campground.author.id),
-                        "username": campground.author.username
-                    }
-                };
-
-                campground.comments.forEach(function(cm){
-                    cg2.comments.push(new mongoose.mongo.ObjectID(cm));
-                });
-                Farm.create(cg2, function(err, farm) {
-                    if (err) {
-                        console.log("Shit's gone totally haywire!!\n"+err.message);
-                    } else {
-                        console.log("Created new farm!");
-                        console.log(JSON.stringify(farm,null,'\t'));
-                    }
-                });
-            });
-            res.render('campground.index.ejs', { campgrounds: campgrounds});
-        }
-    });
-});
-
-
-var remarkSchema = mongoose.Schema(
-    {
-        text  : String,
-        createdAt : { type: Date, default: Date.now },
-        author: { id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-                username: String }
-    }
-);
-var Remark = mongoose.model('Remark', remarkSchema);
-
-router.get('/comments/admin/dump2db', function(req, res) {
-    Comment.find({}, { __v: 0}, function(err, comments) {
-        if (err) {
-            console.log("Couldn't fetch comments from DB!!")
-            console.log(err);
-        } else {
-            comments.forEach(function(comment) {
-                var xx = new Date().getTime() - 1000*getRandomInt(50000, 16*86400);
-                var cm2 = {
-                    "_id" : new mongoose.mongo.ObjectID(comment._id),
-                    "text": comment.text,
-                    "createdAt" : new Date(xx),
-                    "author": {
-                        "id" : new mongoose.mongo.ObjectID(comment.author.id),
-                        "username" : comment.author.username
-                    }
-                };
-                // console.log(JSON.stringify(cm2, null, '\t'));
-
-                Remark.create(cm2, function(err, remark) {
-                    if (err) {
-                        console.log("Shit's gone totally haywire!!\n"+err.message);
-                    } else {
-                        console.log("Created new remark!");
-                        console.log(JSON.stringify(remark, null,'\t'));
-                    }
-                });
-            });
-            res.redirect('/campgrounds');
-        }
-    });
-});
 
 module.exports = router;
