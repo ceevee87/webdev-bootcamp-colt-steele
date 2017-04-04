@@ -73,16 +73,21 @@ router.get('/:comment_id/edit', checkCommentOwnership, function(req, res) {
     });
 });
 
-// comments UPDATE (post)
+// comments UPDATE (put)
 router.put('/:comment_id', checkCommentOwnership, function(req, res) {
     // res.send("Caught update comment route. Updated comment = \n"+JSON.stringify(req.body.comment));
     var newComment = req.body.comment;
     newComment.createdAt = new Date();
-    Comment.findByIdAndUpdate(req.params.comment_id, newComment, function(err, resComment){
+    Comment.findByIdAndUpdate(req.params.comment_id, newComment,  {new: true}, function(err, resComment){
         if (err) {
             req.flash("error", "Could not update comment: "+err.message);
-        } 
-        res.redirect('/campgrounds/' + req.params.id);
+        } else {
+            if (req.xhr) {
+                res.json(resComment);
+            } else {
+                res.redirect('/campgrounds/' + req.params.id);
+            }
+        }
     });
 });
 

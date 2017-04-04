@@ -58,7 +58,9 @@
             </div>
             <div class="well">
                 <div class="text-right">
-                    <a href="/campgrounds/<%=campground._id%>/comments/new" class="btn btn-success">Add a Comment</a>
+                    <a href="/campgrounds/<%=campground._id%>/comments/new" 
+                        class="btn btn-success">Add a Comment
+                    </a>
                 </div>
                 <hr>
                 <% campground.comments.forEach(function(comment) { %>
@@ -66,10 +68,12 @@
                         <div class="col-md-12">
                             <strong><%=comment.author.username%></strong>
                             <%if (currentUser && comment.author && comment.author.id && comment.author.id.equals(currentUser._id)) { %>
-                                <!--edit this comment-->
-                                <span><a class="btn btn-xs" 
-                                    href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit">
-                                    <i class="fa fa-pencil fa-lg"></i></a>
+                                <!--edit icon, which will expose an edit box to edit the -->
+                                <!--comment without refreshing the page.-->
+                                <span>
+                                    <button type="submit" class="btn-edit-comment">
+                                        <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                    </button>
                                 </span>
 
                                 <!--delete the comment-->
@@ -78,6 +82,8 @@
                                 <form class="form-delete-comment inline-form-button" 
                                         action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>" 
                                         method="POST">
+                                        <!--TODO: assigning an id to the button below is WRONG -->
+                                        <!--we are in a loop and the id value will NOT be unique. -->
                                     <button type="submit" id="completed-task" class="fa-delete-button">
                                         <i class="fa fa-lg fa-trash-o" aria-hidden="true"></i>
                                     </button>
@@ -85,7 +91,21 @@
 
                             <%} %>
                             <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
-                            <p><%=comment.text%></p>
+                            <p class="campground-comment"><%=comment.text%></p>
+
+                            <!--we're doing in-place edits with jQuery and AJAX-->
+                            <!--the form below unhides itself when the user hits the edit button-->
+                            <form class="form-edit-comment" 
+                                    action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>" 
+                                    method="PUT">
+                                <div class="form-group">
+                                    <textarea name="comment[text]" rows="3" 
+                                            class="form-control"><%=comment.text%>
+                                    </textarea>
+                                </div>
+                                <button class="btn btn-primary">Update Item</button>
+                            </form>
+
                         </div>
                     </div>
                 <%});%>
