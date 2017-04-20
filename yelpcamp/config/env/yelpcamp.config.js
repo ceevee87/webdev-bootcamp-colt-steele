@@ -5,6 +5,8 @@ var ip   = process.env.IP || 'localhost';
 module.exports = {
     db: 'mongodb://localhost/yelpcamp',
     port: port,
-    ip: ip
+    ip: ip,
+    usersJsonFile: './users.json',
+    campgroundsJsonFile: './campgrounds.json'
 };
 
