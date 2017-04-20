@@ -10,6 +10,7 @@ The campsite application demonstrates elements of the following technologies:
 
 - Front end development with HTML/JS/CSS.
   * Styling with Bootstrap, Google Fonts, and FontAwesome.
+  * Full page slideshow on landing page with animation delays.
 - Backend development with MongoDB, Node, and Express.
   * Persistence of campground images, comments, and user IDs with MongoDB.
 - MVC design: MongoDB models, express routes, and JavaScript template files
@@ -55,7 +56,9 @@ node ./public/init/initdb.js
 nodemon --config nodemon.json app.js
 ```
 ## Running the application
-The default landing page for the application is http://localhost:3000/. 
+The [default landing page](http://localhost:3000/) for the application is http://localhost:3000/. 
+
+*Make sure to pause ~5 seconds to see the slideshow animation.*
 
 ## Development Environment
 This code is developed using VS Code on top of Firefox 52.0.2 (64-bit). 
