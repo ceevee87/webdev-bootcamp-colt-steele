@@ -11,6 +11,7 @@ The campsite application demonstrates elements of the following technologies:
 - Front end development with HTML/JS/CSS.
   * Styling with Bootstrap, Google Fonts, and FontAwesome.
   * Full page slideshow on landing page with animation delays.
+  * Responsive web page formatting as web page width shrinks.
 - Backend development with MongoDB, Node, and Express.
   * Persistence of campground images, comments, and user IDs with MongoDB.
 - MVC design: MongoDB models, express routes, and JavaScript template files
