@@ -14,7 +14,7 @@ module.exports = function() {
         process.exit(-1);
     });
     db.on('connected', function() {
-        console.log('Connection to mongodb (yelpcamp) successful!!');
+        console.log('Connection to mongodb (' + config.db + ') successful!!');
     });
     
     return mongoose;
