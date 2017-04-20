@@ -1,4 +1,4 @@
 {
   "verbose": true,
-  "ignore": ["nodemon.json", "campgrounds.json", "users.json", "commit.log"]
+  "ignore": ["nodemon.json", "public/init/*", "commit.log"]
 }
