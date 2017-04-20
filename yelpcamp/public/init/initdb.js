@@ -7,6 +7,7 @@ var User       = require('../../models/user.model');
 // misc packages
 var config     = require('../../config/env/yelpcamp.config');
 var fs         = require('fs'),
+    path       = require('path'),
     async      = require('async');
 
 // authentication packages and related set up
@@ -24,7 +25,7 @@ passport.initialize();
 passport.session();
 // end authentication setup
 
-var fname = config.usersJsonFile;
+var fname = path.join(path.resolve(__dirname), config.usersJsonFile);
 function dropDbCollections() {
     return function(callback) {
         // we are replacing any data in the mongo db with what we'll
@@ -137,7 +138,7 @@ function readCampgroundData(authors, callback) {
     // read the campground json file
     // if it barfs then bail out of this async chain.
     // otherwise, carry-on.
-    var fname = config.campgroundsJsonFile;
+    var fname = path.join(path.resolve(__dirname),config.campgroundsJsonFile);
     console.log("-I-About to read campground.json");
     fs.readFile(fname, 'utf-8', function(err, data) {
         if (err) {

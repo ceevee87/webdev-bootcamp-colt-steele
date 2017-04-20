@@ -6,7 +6,7 @@ module.exports = {
     db: 'mongodb://localhost/yelpcamp',
     port: port,
     ip: ip,
-    usersJsonFile: './users.json',
-    campgroundsJsonFile: './campgrounds.json'
+    usersJsonFile: 'users.json',
+    campgroundsJsonFile: 'campgrounds.json'
 };
 

@@ -20,7 +20,7 @@ The campsite application demonstrates elements of the following technologies:
 - Utilization of popular third-party NPM packages
   * large size JPEGs were dithered using a one-time gulpfile run.
   * database state can be saved as JSON and reloaded. The multi-part process of
-    loading is handled with async.
+    loading data into MongoDB is handled with async.
   * nice looking timestamps using Moment
   * nodemon keeps web-site running after files change during development.
   * banner messages are done using Flash.
@@ -37,6 +37,13 @@ It is assumed that the NPM package *nodemon* is globally installed in your syste
 
 The NoSQL database *MongoDB, version 3.4.2 or higher* must be installed on your system.
 
+## Setup
+This section pertains to steps you make take after cloning the repo but before doing the rest of the installation steps. 
+
+The file ./config/env/yelpcamp.config.js contains setting to control the following items:
+  - the name of the mongoDB database
+  - the default URL and port that express will listen to
+
 ## Installation
 
 ```
@@ -44,12 +51,17 @@ git clone https://github.com/ceevee87/webdev-demo-campgrounds.git
 cd webdev-demo-campgrounds/yelpcamp
 npm install
 mongod &
+node ./public/init/initdb.js
 nodemon --config nodemon.json app.js
 ```
+## Running the application
+The default landing page for the application is http://localhost:3000/. 
 
 ## Development Environment
 This code is developed using VS Code on top of Firefox 52.0.2 (64-bit). 
 The operating system is Ubuntu 16.04 LTS.
+
+No testing was done on Windows based machines or alternate browsers.
 
 ## Items left to do
 - Implement form validation
